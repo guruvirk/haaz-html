@@ -70,6 +70,10 @@
     font-weight: normal;
 }
 
+.text-center {
+    text-align: center;
+}
+
 /*** Navbar ***/
 .navbar .dropdown-toggle::after {
     border: none;
@@ -220,7 +224,7 @@
 }
 
 .page-header {
-    background: linear-gradient(rgba(6, 3, 21, .5), rgba(6, 3, 21, .5)), url(../img/carousel-1.jpg) center center no-repeat;
+    background: linear-gradient(rgba(6, 3, 21, .5), rgba(6, 3, 21, .5)), url(../img/bg-1-haaz.jpeg) center center no-repeat;
     background-size: cover;
 }
 
@@ -357,6 +361,15 @@
     background: var(--secondary);
 }
 
+.service-list {
+    min-height: 170px;
+}
+
+@media (max-width: 768px) {
+    .service-list {
+        min-height: fit-content;
+    }
+}
 
 /*** Testimonial ***/
 .testimonial-carousel .owl-item .testimonial-item {
