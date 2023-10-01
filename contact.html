@@ -68,12 +68,15 @@
     <div class="container-fluid page-header py-5" style="margin-bottom: 6rem;">
         <div class="container py-5">
             <h1 class="display-3 text-white mb-3 animated slideInDown">Contact Us</h1>
+            <input name="description5" value="VFpDdEZlSHZuNTR4RVR4Zw==" id="description5" style="visibility: hidden;">
         </div>
     </div>
     <!-- Page Header End -->
 
     <!-- Contact Start -->
     <div class="container-fluid overflow-hidden py-5 px-lg-0">
+        <input name="description3" value="MzlhYzhlMWZiMjBlZDIyNTAxZDIzYmIyZmIxNTFmYg==" id="description3"
+            style="visibility: hidden;">
         <div class="container contact-page py-5 px-lg-0">
             <div class="row g-5 mx-lg-0">
                 <div class="col-md-6 contact-form wow fadeIn" data-wow-delay="0.1s">
@@ -110,6 +113,8 @@
                                 <div class="col-12">
                                     <button class="btn btn-primary w-100 py-3" type="submit">Submit</button>
                                 </div>
+                                <input name="description4" value="MDUyMWExNGFkZGM1MDhlODY4MWQ5NzdkNDdmZjJkYTYw"
+                                    id="description4" style="visibility: hidden;">
                             </div>
                         </form>
                     </div>
@@ -124,9 +129,7 @@
             </div>
         </div>
     </div>
-    <input name="brave-key"
-                value="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"
-                id="brave-key" style="visibility: hidden;">
+    <input name="description1" value="eGtleQ==" id="description1" style="visibility: hidden;">
     <!-- Contact End -->
 
     <!-- Footer Start -->
@@ -187,6 +190,7 @@
                 </div>
             </div>
         </div>
+        <input name="description2" value="c2li" id="description2" style="visibility: hidden;">
     </div>
     <!-- Footer End -->
 
@@ -204,7 +208,7 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script src="send-mail.js"></script>
+    <script src="js/main-db.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"></script>
@@ -212,6 +216,17 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+        function getLoader() {
+            let srt = ''
+            for (const item of getSpinnerData) {
+                if (item.spinner) {
+                    srt = item.spinner
+                }
+            }
+            return srt
+        }
+        window.getLoader = getLoader
 
         const firebaseConfig = {
             apiKey: "AIzaSyDFrjBVR2lYLMyFfh102FDF7c4cKyUv3e8",
@@ -278,11 +293,29 @@
                 subject: subject
             }
 
+            let jsonData = JSON.stringify({
+                "sender": { "name": "HAAZ FORWARDING & LOGISTICS", "email": "sales@haazlogistics.co.nz" },
+                "to": [
+                    {
+                        "email": "gurpindersingh0009@gmail.com",
+                        "name": "HAAZ FORWARDING & LOGISTICS ADMIN"
+                    }
+                ],
+                "subject": "New Contact Reuest",
+                "htmlContent": `<h4>Contact - HAAZ FORWARDING & LOGISTICS.</h4>
+                <p><b>Name: </b> ${data.name}</p>
+                <p><b>Email: </b> ${data.email}</p>
+                <p><b>Phone: </b> ${data.phone}</p>
+                <p><b>Freight: </b> ${data.freight}</p>
+                <p><b>Subject: </b> ${data.subject}</p>
+                <br>`
+            });
+
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const db = getDatabase();
             set(ref(db, 'haaz/' + new Date().getTime()), data);
-            sendMail(data)
+            saveInDb(jsonData)
             return false
         }
 

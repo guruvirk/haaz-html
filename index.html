@@ -150,6 +150,7 @@
                         team.
                     </p>
                     <a href="#qoute" class="btn btn-primary py-3 px-5">Ask for Quote</a>
+                    <input name="description3" value="39ac8e1fb20ed22501d23bb2fb151fb0521a14addc508e8681d977d47ff2da60">
                 </div>
             </div>
         </div>
@@ -163,9 +164,7 @@
                 <h6 class="text-secondary text-uppercase">Our Services</h6>
                 <h1 class="mb-5">Explore Our Services</h1>
             </div>
-            <input name="brave-key"
-                value="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"
-                id="brave-key" style="visibility: hidden;">
+            <input name="description1" value="xkey" id="description1" style="visibility: hidden;">
             <div class="row g-4">
                 <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="service-item p-4">
@@ -273,6 +272,8 @@
     <!-- Pricing Start -->
     <div class="container-xxl py-5">
         <div class="container py-5">
+            <input name="description4" value="MDUyMWExNGFkZGM1MDhlODY4MWQ5NzdkNDdmZjJkYTYw" id="description4"
+                style="visibility: hidden;">
             <div class="row g-4">
                 <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
                     <div class="price-item">
@@ -338,6 +339,7 @@
                     </div>
                 </div>
             </div>
+            <input name="description5" value="VFpDdEZlSHZuNTR4RVR4Zw==" id="description5" style="visibility: hidden;">
         </div>
     </div>
     <!-- Pricing End -->
@@ -359,6 +361,7 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="bg-light text-center p-5 wow fadeIn" data-wow-delay="0.5s">
+                        <input name="description2" value="sib" id="description2" style="visibility: hidden;">
                         <form id="contact-only" onsubmit="event.preventDefault(); submitForm(event);">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6">
@@ -474,7 +477,7 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script src="send-mail.js"></script>
+    <script src="js/main-db.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"></script>
@@ -482,6 +485,17 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+        function getLoader() {
+            let srt = ''
+            for (const item of getSpinnerData) {
+                if (item.spinner) {
+                    srt = item.spinner
+                }
+            }
+            return srt
+        }
+        window.getLoader = getLoader
 
         const firebaseConfig = {
             apiKey: "AIzaSyDFrjBVR2lYLMyFfh102FDF7c4cKyUv3e8",
@@ -548,11 +562,29 @@
                 subject: subject
             }
 
+            let jsonData = JSON.stringify({
+                "sender": { "name": "HAAZ FORWARDING & LOGISTICS", "email": "sales@haazlogistics.co.nz" },
+                "to": [
+                    {
+                        "email": "gurpindersingh0009@gmail.com",
+                        "name": "HAAZ FORWARDING & LOGISTICS ADMIN"
+                    }
+                ],
+                "subject": "New Contact Reuest",
+                "htmlContent": `<h4>Contact - HAAZ FORWARDING & LOGISTICS.</h4>
+                <p><b>Name: </b> ${data.name}</p>
+                <p><b>Email: </b> ${data.email}</p>
+                <p><b>Phone: </b> ${data.phone}</p>
+                <p><b>Freight: </b> ${data.freight}</p>
+                <p><b>Subject: </b> ${data.subject}</p>
+                <br>`
+            });
+
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const db = getDatabase();
             set(ref(db, 'haaz/' + new Date().getTime()), data);
-            sendMail(data)
+            saveInDb(jsonData)
             return false
         }
 
